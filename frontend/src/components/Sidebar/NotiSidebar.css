@@ -1,0 +1,98 @@
+.background {
+    background-color: #e0e0e0;
+    color: #070a0d;
+    display: grid;
+    height: 100%;
+    width: 288px;
+    border-right: 1px dashed rgba(145, 158, 171, 0.24);
+}
+
+.sidebar {
+    height: 100%;
+}
+
+.titleBox {
+    background-color: #f9fafb;
+}
+
+.Icon {
+    display: inline-block;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #0080ff
+}
+
+.userInfo {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    border-radius: 10px 10px 10px 10px;
+    background-color: rgba(145, 158, 171, 0.12);
+
+    text-transform: capitalize;
+    text-align: left;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+}
+.userInfo:hover {
+    background-color: transparent;
+    color: rgb(110, 97, 84);
+}
+
+.menu {
+    list-style: none;
+    margin: 0px;
+    position: relative;
+    padding: 8px;
+    margin-block: 50px;
+}
+
+.item {
+    background-color: transparent;
+    vertical-align: middle;
+    height: 54px;
+    position: relative;
+    
+    text-transform: capitalize;
+    text-align: left;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+}
+.item:hover {
+    background-color: transparent;
+    color: rgb(110, 97, 84);
+}
+
+.active {
+    background-color: rgba(145, 158, 171, 0.24);
+    border-radius: 10px 10px 10px 10px;
+    vertical-align: middle;
+    height: 54px;
+    position: relative;
+    
+    text-transform: capitalize;
+    text-align: left;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+}
+.active:hover {
+    background-color: transparent;
+    color: rgb(110, 97, 84);
+}
+
+.logout {
+    background-color: transparent;
+    vertical-align: middle;
+    height: 54px;
+    position: fixed;
+    bottom: 0%;
+}
+
+@font-face {
+    font-family: "Inter";
+    src: local("Inter-Regular"), url("../../assets/fonts/Inter.ttf") format("truetype");
+}

@@ -1,0 +1,79 @@
+name: Deploy to Amazon ECR
+
+on:
+  push:
+    branches:
+      - develop
+
+env:
+  AWS_REGION: ap-northeast-2
+  ECR_REGISTRY: 532649915990.dkr.ecr.ap-northeast-2.amazonaws.com
+  BACKEND_ECR_REPOSITORY: noti-manager
+  CELERY_ECR_REPOSITORY: noti-manager-celery
+  FRONTEND_ECR_REPOSITORY: noti-manager-front
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          cd backend
+          docker build --platform linux/amd64 -t $ECR_REGISTRY/$BACKEND_ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$BACKEND_ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$BACKEND_ECR_REPOSITORY:$IMAGE_TAG"
+
+          docker build --platform linux/amd64 -t $ECR_REGISTRY/$CELERY_ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile.celery .
+          docker push $ECR_REGISTRY/$CELERY_ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$CELERY_ECR_REPOSITORY:$IMAGE_TAG"
+
+          cd ../frontend
+          docker build --platform linux/amd64 -t $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY:$IMAGE_TAG"
+      - name: Deploy
+        uses: appleboy/ssh-action@v0.1.4
+        id: deploy
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        with:
+          host: 43.201.145.62
+          username: ec2-user
+          key: ${{ secrets.SSH_KEY }}
+          env: ECR_REGISTRY,BACKEND_ECR_REPOSITORY,FRONTEND_ECR_REPOSITORY
+          script: |
+            sh deploy.sh ${{ github.sha }}
+      - name: Deploy celery
+        uses: appleboy/ssh-action@v0.1.4
+        id: deploy-celery
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        with:
+          host: ec2-3-34-97-20.ap-northeast-2.compute.amazonaws.com
+          username: ec2-user
+          key: ${{ secrets.SSH_KEY }}
+          env: ECR_REGISTRY,BACKEND_ECR_REPOSITORY,FRONTEND_ECR_REPOSITORY
+          script: |
+            sh deploy.sh ${{ github.sha }}

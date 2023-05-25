@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+  font-family: "Inter";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: "Inter"
+    monospace;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: local("Inter-Regular"), url("./assets/fonts/Inter.ttf") format("truetype");
+}

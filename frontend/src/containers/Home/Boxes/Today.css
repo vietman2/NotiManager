@@ -1,0 +1,12 @@
+.Today {
+    font-family: "Inter";
+}
+
+.Today::content {
+    font-family: "Inter";
+}
+
+@font-face {
+    font-family: "Inter";
+    src: local("Inter-Regular"), url("../../../assets/fonts/Inter.ttf") format("truetype");
+}

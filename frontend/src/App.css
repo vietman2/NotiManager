@@ -1,0 +1,20 @@
+.App {
+  text-align: center;
+}
+
+.sidebar {
+  float: left;
+  width: 288px;
+}
+
+.contents {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  width: auto;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}

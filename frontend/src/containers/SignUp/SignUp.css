@@ -1,0 +1,22 @@
+.SignUp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10%;
+  font-family: "NotoSansKR-Medium";
+}
+
+.email {
+  display: flex;
+  width: 300px;
+}
+
+.password {
+  display: flex;
+  width: 300px;
+}
+
+.errpr {
+  color: red;
+  font-size: 16px;
+}

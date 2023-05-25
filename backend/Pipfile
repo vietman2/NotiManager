@@ -1,0 +1,29 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "==4.1.2"
+djangorestframework = "==3.13.1"
+django-cors-headers = "*"
+celery = "==4.4"
+django-celery-beat = "*"
+celery-flower = "*"
+requests = "*"
+redis = "*"
+tornado = "==5.1.1"
+django-extensions = "*"
+model-bakery = "*"
+uwsgi = "*"
+mysqlclient = "*"
+limitlion = "==1.0.0"
+flower = "*"
+
+[dev-packages]
+pylint = "*"
+coverage = "*"
+pylint-django = "*"
+
+[requires]
+python_version = "3.9"
